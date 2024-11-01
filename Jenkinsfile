@@ -13,11 +13,6 @@ pipeline {
                 // Add your git checkout commands here, e.g., checkout scm
             }
         }
-        stage("Cleanup Workspace") {
-            steps {
-                cleanWs()
-            }
-        }
          stage("build Application") {
             steps {
                 sh "mvn clean package"
