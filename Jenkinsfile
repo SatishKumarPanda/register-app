@@ -9,11 +9,11 @@ pipeline {
     stages {
         stage("Git Checkout") {
             steps {
-                echo "git work"
-                // Add your git checkout commands here, e.g., checkout scm
+                echo "Checking out code from Git"
+                checkout scm // Uncomment and adjust as necessary for your repo
             }
         }
-         stage("build Application") {
+        stage("Build Application") {
             steps {
                 sh "mvn clean package"
             }
@@ -21,6 +21,15 @@ pipeline {
         stage("Test Application") {
             steps {
                 sh "mvn test"
+            }
+        }
+        stage("SonarQube Scanner") {
+            steps {
+                script {
+                    withSonarQubeEnv('jenkins-sonarqube-token') {
+                        sh "mvn sonar:sonar"
+                    }
+                }
             }
         }
     }
