@@ -62,6 +62,18 @@ pipeline {
             }
 
        }
+	    stage("Trivy Scan") {
+           steps {
+               script {
+	            sh '''
+                        trivy image --no-progress --scanners vuln \
+                        --exit-code 0 --severity HIGH,CRITICAL \
+                        --format table satishkumarpanda/register-app-pipeline:latest
+                    '''
+               }
+           }
+       }
+
 	 stage ('Cleanup Artifacts') {
            steps {
                script {
